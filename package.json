@@ -8,8 +8,7 @@
     "dva": "^1.1.0",
     "qs": "^6.2.0",
     "react": "^15.1.0",
-    "react-dom": "^15.1.0",
-    "lodash": "^4.16.6"
+    "react-dom": "^15.1.0"
   },
   "devDependencies": {
     "atool-build": "^0.7.6",
