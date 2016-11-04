@@ -1,6 +1,7 @@
 import React, { PropTypes } from 'react';
 import Header from '../components/MainLayout/Header';
 import Lefter from '../components/MainLayout/Lefter';
+import TopBreadcrumb from '../components/MainLayout/TopBreadcrumb';
 // 引入 connect 工具函数
 import { connect } from 'dva';
 import styles from './MainLayout.less';
@@ -21,9 +22,26 @@ class MainLayout extends React.Component{
   }
 
 
-  render(){
-    const {menus,location} = this.props;
 
+
+  render(){
+    const {menus,location,dispatch} = this.props;
+    const lefterProps = {
+      menus :menus.items,
+      location :location,
+      updateNavPath (key,keyPath){
+        dispatch({
+          type:'menus/updateNavPath',
+          payload : {
+            data:keyPath,
+            key:key
+          }
+        })
+      }
+    }
+    const navpath = {
+      navpath :menus.navpath
+    }
     return (
       <div className={styles.layout_box}>
         <div className={styles.layout_box_top}>
@@ -33,10 +51,15 @@ class MainLayout extends React.Component{
         <div className={styles.layout_box_content} >
 
           <div className={styles.layout_box_content_left}>
-            <Lefter location={location} menus={menus} />
+            <Lefter {...lefterProps}  />
           </div>
+
           <div className={styles.layout_box_content_right}>
+            <div className={styles.top_breadcrumb}>
+              <TopBreadcrumb {...navpath}  />
+            </div>
             <div className={styles.layout_box_content_right_body}>
+
               {this.props.children}
             </div>
 
@@ -59,7 +82,7 @@ MainLayout.propTypes = {
 // 指定订阅数据，这里关联了 users
 function mapStateToProps(state) {
   return {
-    menus:state.menus.items
+    menus:state.menus
   }
 }
 export default connect(mapStateToProps)(MainLayout);
