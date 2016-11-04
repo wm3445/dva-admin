@@ -29,27 +29,6 @@ module.exports = {
             ]
           }
         ]
-      },
-      {
-        key: 2,
-        name: 'Dashboard',
-        icon: 'setting',
-        child: [
-          {
-            name: '系统',
-            key: 202,
-            child: [
-              {
-                name: '用户管理',
-                key: 'users1'
-              },
-              {
-                name: '首页',
-                key: 'home1'
-              }
-            ]
-          }
-        ]
       }
     ]
     setTimeout(function () {

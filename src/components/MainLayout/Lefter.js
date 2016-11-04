@@ -14,7 +14,7 @@ function getMenuKeyFromUrl(pathname) {
   }
   return key;
 }
-const Lefter = ({ location ,menus,updateNavPath}) => {
+const Lefter = ({ location ,menus}) => {
  /* const items = [
     {
       key: 1,
@@ -38,29 +38,24 @@ const Lefter = ({ location ,menus,updateNavPath}) => {
       ]
     }
   ];*/
-
-  function menuClickHandle( {item, key, keyPath} ){
-
-    updateNavPath(key,keyPath)
-  }
   const items = menus;
   const menu = items.map((item) => {
 
     return (
       <SubMenu
-        key={item.key}
+        key={'sub'+item.key}
         title={<span><Icon type={item.icon} />{item.name}</span>}
       >
         {
           item.child.map((node) => {
             return (
-              <SubMenu key={node.key} title={<span><Icon type={node.icon} />{node.name}</span>}>
+              <SubMenu key={'sub'+node.key} title={<span><Icon type={node.icon} />{node.name}</span>}>
                 {
                   node.child.map((node_son)=>{
                     return(
-                      < Menu.Item key={node_son.key} >
+                      < Menu.Item key={node_son.key}>
 
-                        <Link   to={'/'+node_son.key}><Icon type="bars" />{ node_son.name }</Link>
+                        <Link to={'/'+node_son.key}><Icon type="bars" />{ node_son.name }</Link>
 
                       </Menu.Item>
                     )
@@ -79,9 +74,8 @@ const Lefter = ({ location ,menus,updateNavPath}) => {
         selectedKeys={[getMenuKeyFromUrl(location.pathname)]}
         mode="inline"
         theme="dark"
-        defaultOpenKeys={['1','101']}
-        defaultSelectedKeys={['users']}
-        onClick={menuClickHandle}
+        defaultOpenKeys={['sub1']}
+        defaultSelectedKeys={['home']}
       >
         {menu}
       </Menu>
