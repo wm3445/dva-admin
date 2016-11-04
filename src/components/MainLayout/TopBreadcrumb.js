@@ -15,7 +15,7 @@ function TopBreadcrumb({navpath}) {
     bread = (<Breadcrumb.Item key='bc-0'>首页</Breadcrumb.Item>);
   }
   return (
-    <Breadcrumb>
+    <Breadcrumb separator=">">
       {
         bread
       }

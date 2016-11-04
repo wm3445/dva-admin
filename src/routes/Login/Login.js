@@ -27,25 +27,24 @@ class Login extends React.Component {
   componentWillReceiveProps(nextProps) {
     const error = nextProps.login.loginErrors;
     const isLoggingIn = nextProps.login.loggingIn;
-    const user = nextProps.login.user
-    console.log("data", nextProps.login)
+    const loginInfo = nextProps.login.loginInfo
+    console.log("data", nextProps.login.loginInfo)
 
     if (error != this.props.login.loginErrors && error) {
       notification.error({
         message: 'Login Fail',
-        description: error,
-        duration: 0
+        description: error
       });
     }
 
-    if (!isLoggingIn && !error && user)  {
+    if (!isLoggingIn && !error && loginInfo)  {
       notification.success({
         message: 'Login Success',
-        description: 'Welcome ' + user
+        description: 'Welcome ' + loginInfo
       });
     }
 
-    if (user) {
+    if (loginInfo) {
       this.context.router.replace('/home');
     }
   }
@@ -69,20 +68,26 @@ class Login extends React.Component {
       <div className={styles.normal}>
 
         <Form onSubmit={this.handleSubmit.bind(this)} className={styles.login_form}>
+
           <FormItem>
             {getFieldDecorator('username', {
               rules: [{required: true, message: '请输入用户名!'}],
             })(
-              <Input addonBefore={<Icon type="user" />} placeholder="Username"/>
+              <Input  addonBefore={<Icon type="user" />} placeholder="Username"/>
             )}
           </FormItem>
           <FormItem>
+            {(
+              <Input type="password" style={{display:"none"}}/>
+            )}
             {getFieldDecorator('password', {
               rules: [{required: true, message: '请输入密码!'}],
             })(
-              <Input addonBefore={<Icon type="lock" />} type="password" placeholder="Password"/>
+              <Input   addonBefore={<Icon type="lock" />} type="password" placeholder="Password"/>
             )}
+
           </FormItem>
+
           <FormItem>
             {getFieldDecorator('remember', {
               valuePropName: 'checked',
@@ -90,12 +95,14 @@ class Login extends React.Component {
             })(
               <Checkbox>记住登陆</Checkbox>
             )}
+
             <a className={styles.login_forgot}>忘记密码</a>
             <Button type="primary" htmlType="submit" className={styles.login_button}>
               登陆
             </Button>
             或者 <a>现在注册!</a>
           </FormItem>
+
         </Form>
       </div>
     )

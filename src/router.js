@@ -11,9 +11,7 @@ import getCookie from './utils/index'
 const validate = function (next, replace, callback) {
 
   const isLoggedIn = !!getCookie('uid');
-  if (!true && next.location.pathname != '/login') {
-    console.log("next",next);
-
+  if (!isLoggedIn && next.location.pathname != '/login') {
     replace('/login')
   }
   callback()
@@ -22,14 +20,17 @@ const validate = function (next, replace, callback) {
 export default function({ history }) {
   return (
     <Router history={history}>
-      <Route path="/"  onEnter={validate} component={MainLayout}  >
+      <Route path="/"  onEnter={validate}   >
         <IndexRedirect to="/home" />
+        <Route component={MainLayout}>
+          <Route path="/users" component={Users} />
+          <Route path="/home" component={IndexPage} />
+        </Route>
 
-        <Route path="/users" component={Users} />
-        <Route path="/home" component={IndexPage} />
+        <Route path="/login" component={Login}/>
+        <Route path="*" component={NotFound} />
       </Route>
-      <Route path="/login" component={Login}/>
-      <Route path="*" component={NotFound} />
+
     </Router>
   );
 };

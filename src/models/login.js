@@ -5,21 +5,22 @@ import { routerRedux } from 'dva/router';
 export default {
   namespace: 'login',
   state: {
-    loginInfo: null,
-    loggingIn: false,
-    loggingOut: false,
-    loginErrors :null,
+    loginInfo: null,//登录携带信息
+    loggingIn: false,//是否点击登录
+    loggingOut: false,//是否点击登出
+    loginErrors :null,//提示信息
     uid:null
   },
   effects: {
     *login({payload},{call,put}){
+      yield put({type: 'loginPending'});
       const { data } = yield call(login,payload);
       if(data && data.success){
         yield put({
           type: 'loginSuccess',
           payload: data
         });
-       // yield put(routerRedux.push('/home'))
+        document.cookie = 'uid='+data.user
       } else {
         yield put({
           type: 'loginFail',
@@ -29,12 +30,16 @@ export default {
     }
   },
   reducers: {
+    loginPending(state,action){
+      return {...state,loggingIn:true,loginErrors:null,loginInfo:null}
+    },
     loginSuccess(state,action){
 
-      return {...state,user:action.payload.user,loggingIn:false,loginErrors:null}
+      return {...state,loginInfo:true,loggingIn:false,loginErrors:null}
     },
     loginFail(state,action){
-      return {...state,loggingIn: false, user: null, loginErrors: action.payload.msg}
+
+      return {...state,loggingIn: false, loginInfo: null, loginErrors: action.payload.msg}
     }
   }
 
