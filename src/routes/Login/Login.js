@@ -1,10 +1,10 @@
-import React,{PropTypes} from 'react';
-import {notification, message ,Form, Icon, Input, Button, Checkbox  } from 'antd';
-import { routerRedux } from 'dva/router';
+import React, {PropTypes} from 'react';
+import {notification, message, Form, Icon, Input, Button, Checkbox} from 'antd';
+import {routerRedux} from 'dva/router';
 const FormItem = Form.Item;
 import styles from './Login.less';
 // 引入 connect 工具函数
-import { connect } from 'dva';
+import {connect} from 'dva';
 
 
 const propTypes = {
@@ -25,65 +25,50 @@ class Login extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
+
     const error = nextProps.login.loginErrors;
     const isLoggingIn = nextProps.login.loggingIn;
     const loginInfo = nextProps.login.loginInfo
-    console.log("data", nextProps.login.loginInfo)
-
-    if (error != this.props.login.loginErrors && error) {
+    if (error != this.props.login.loginErrors && error && error != "" && !isLoggingIn) {
       notification.error({
         message: 'Login Fail',
         description: error
       });
     }
-
-    if (!isLoggingIn && !error && loginInfo)  {
-      notification.success({
-        message: 'Login Success',
-        description: 'Welcome ' + loginInfo
-      });
-    }
-
     if (loginInfo) {
       this.context.router.replace('/home');
     }
   }
 
-  handleSubmit() {
+  handleSubmit(e) {
+    e.preventDefault();
     const {dispatch} =this.props;
-    const { getFieldsValue } = this.props.form
+    const {getFieldsValue} = this.props.form
     const fieldsValue = getFieldsValue();
     dispatch({
-      type: 'login/login',
+      type: 'login/loginForm',
       payload: fieldsValue
     })
-
   }
 
-  render(){
-
-    const { getFieldDecorator } = this.props.form
-
-    return(
+  render() {
+    const {getFieldDecorator} = this.props.form;
+    return (
       <div className={styles.normal}>
-
         <Form onSubmit={this.handleSubmit.bind(this)} className={styles.login_form}>
-
           <FormItem>
             {getFieldDecorator('username', {
               rules: [{required: true, message: '请输入用户名!'}],
             })(
-              <Input  addonBefore={<Icon type="user" />} placeholder="Username"/>
+              <Input addonBefore={<Icon type="user"/>} placeholder="Username"/>
             )}
           </FormItem>
           <FormItem>
-            {(
-              <Input type="password" style={{display:"none"}}/>
-            )}
+
             {getFieldDecorator('password', {
               rules: [{required: true, message: '请输入密码!'}],
             })(
-              <Input   addonBefore={<Icon type="lock" />} type="password" placeholder="Password"/>
+              <Input addonBefore={<Icon type="lock"/>} type="password" placeholder="Password"/>
             )}
 
           </FormItem>
@@ -112,7 +97,6 @@ class Login extends React.Component {
 Login.contextTypes = contextTypes;
 
 Login.propTypes = propTypes;
-
 
 
 // 指定订阅数据，这里关联了 users

@@ -15,11 +15,21 @@ function getMenuKeyFromUrl(pathname) {
   return key;
 }
 
-function Header({ location }) {
+function Header({loginOut}) {
+  function handleClick({item, key, keyPath}){
+    if(key ==="loginout"){
+      loginOut();
+
+    }
+  }
   return (
     <div className='ant-layout-header'style={{width:"100%"}}>
-      <Menu className="header-menu" style={{float:"right"}}
-            mode="horizontal">
+      <Menu
+        className="header-menu"
+        style={{float:"right"}}
+        mode="horizontal"
+        onClick={handleClick}
+      >
         <Menu.Item key="mail">
           <Icon type="question" />帮助
         </Menu.Item>
@@ -27,7 +37,7 @@ function Header({ location }) {
           <Menu.Item key="setting:1">选项1</Menu.Item>
           <Menu.Item key="setting:2">选项2</Menu.Item>
           <Menu.Divider />
-          <Menu.Item key="setting:3">注销</Menu.Item>
+          <Menu.Item key="loginout">注销</Menu.Item>
         </SubMenu>
 
       </Menu>

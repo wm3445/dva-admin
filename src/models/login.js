@@ -1,45 +1,56 @@
 import {login} from '../services/login'
-import { parse } from 'qs';
-import { routerRedux } from 'dva/router';
-
+import {parse} from 'qs';
+import {routerRedux} from 'dva/router';
 export default {
   namespace: 'login',
   state: {
     loginInfo: null,//登录携带信息
     loggingIn: false,//是否点击登录
     loggingOut: false,//是否点击登出
-    loginErrors :null,//提示信息
-    uid:null
+    loginErrors: null,//提示信息
+    uid: null
   },
   effects: {
-    *login({payload},{call,put}){
+
+    *loginForm({payload}, {call, put}){
+
       yield put({type: 'loginPending'});
-      const { data } = yield call(login,payload);
-      if(data && data.success){
-        yield put({
-          type: 'loginSuccess',
-          payload: data
-        });
-        document.cookie = 'uid='+data.user
+      const {data} =   yield call(login, payload);
+      if (data && data.success) {
+        document.cookie = "uid=1";
+
+        yield put(routerRedux.push('/home'))
       } else {
         yield put({
           type: 'loginFail',
-          payload: data
-        });
+          payload: "登陆错误"
+        })
       }
+
+    },
+    *loginOut({payload}, {call, put}){
+      document.cookie = "uid=;expires="+(new Date(0)).toGMTString();
+      yield put(routerRedux.push('/login'))
     }
   },
   reducers: {
-    loginPending(state,action){
-      return {...state,loggingIn:true,loginErrors:null,loginInfo:null}
-    },
-    loginSuccess(state,action){
+    loginPending(state, action){
 
-      return {...state,loginInfo:true,loggingIn:false,loginErrors:null}
-    },
-    loginFail(state,action){
 
-      return {...state,loggingIn: false, loginInfo: null, loginErrors: action.payload.msg}
+      return {...state, loggingIn: true, loginErrors: null}
+    },
+    loginSuccess(state, action){
+
+
+      return {...state, loginInfo: action.payload, loggingIn: false, loginErrors: null}
+    },
+    loginFail(state, action){
+
+
+      return {...state, loginInfo: null, loggingIn: false, loginErrors: action.payload}
+    },
+    defaultState(state, action){
+      return {...state}
     }
   }
 

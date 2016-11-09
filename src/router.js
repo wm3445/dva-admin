@@ -1,11 +1,11 @@
-import React, { PropTypes } from 'react';
-import { Router, Route, IndexRoute, Link,IndexRedirect } from 'dva/router';
-import IndexPage from './routes/IndexPage';
-import MainLayout from './routes/MainLayout';
-import Users from './routes/Users';
-import NotFound from './routes/NotFound';
-import Login from './routes/Login/Login';
-import getCookie from './utils/index'
+import React, {PropTypes} from "react";
+import {Router, Route, IndexRedirect, IndexRoute} from "dva/router";
+import IndexPage from "./routes/IndexPage";
+import MainLayout from "./routes/MainLayout";
+import Users from "./routes/Users";
+import Login from "./routes/Login/Login";
+import App from "./routes/App";
+import getCookie from "./utils/index";
 
 
 const validate = function (next, replace, callback) {
@@ -17,20 +17,17 @@ const validate = function (next, replace, callback) {
   callback()
 }
 
-export default function({ history }) {
+export default function ({history}) {
   return (
-    <Router history={history}>
-      <Route path="/"  onEnter={validate}   >
-        <IndexRedirect to="/home" />
+    <Router history={history }>
+      <Route path="/" onEnter={validate}>
+        <IndexRedirect to="home"/>
         <Route component={MainLayout}>
-          <Route path="/users" component={Users} />
-          <Route path="/home" component={IndexPage} />
+          <Route path="users" component={Users}/>
+          <Route path="home" component={IndexPage}/>
         </Route>
-
-        <Route path="/login" component={Login}/>
-        <Route path="*" component={NotFound} />
+        <Route path="login" component={Login}/>
       </Route>
-
     </Router>
   );
 };

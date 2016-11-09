@@ -1,9 +1,9 @@
 // ./src/routes/Users.jsx
-import React, { Component, PropTypes } from 'react';
-import { routerRedux } from 'dva/router';
+import React, {Component, PropTypes} from 'react';
+import {routerRedux} from 'dva/router';
 
 // 引入 connect 工具函数
-import { connect } from 'dva';
+import {connect} from 'dva';
 
 // Users 的 Presentational Component
 // 暂时都没实现
@@ -15,14 +15,14 @@ import UserModal from '../components/Users/UserModal';
 // 可以暂时新建一个空的
 import styles from './Users.less';
 
-function Users({ location, dispatch, users }) {
-  const { field, keyword } = location.query;
+function Users({location, dispatch, users}) {
+  const {field, keyword} = location.query;
   const {
     loading, list, total, current,
     currentItem, visible, modalType
-    } = users;
+  } = users;
 
-  const userSearchProps={
+  const userSearchProps = {
     field,
     keyword,
     onAdd() {
@@ -35,12 +35,12 @@ function Users({ location, dispatch, users }) {
     },
     onSearch(fieldsValue){
       dispatch({
-        type:'users/query',
-        payload:fieldsValue
+        type: 'users/query',
+        payload: fieldsValue
       })
     }
   };
-  const userListProps={
+  const userListProps = {
     dataSource: list,
     total,
     loading,
@@ -52,7 +52,7 @@ function Users({ location, dispatch, users }) {
       });
     },
     onEditItem(item){
-      console.log("item",item)
+      console.log("item", item)
       dispatch({
         type: 'users/showModal',
         payload: {
@@ -64,7 +64,7 @@ function Users({ location, dispatch, users }) {
     onPageChange(page){
       dispatch(routerRedux.push({
         pathname: '/users',
-        query: { page },
+        query: {page},
       }));
     }
   };
@@ -73,7 +73,7 @@ function Users({ location, dispatch, users }) {
     type: modalType,
     visible: visible,
     onOk(data) {
-      console.log("data",data)
+      console.log("data", data)
       dispatch({
         type: `users/${modalType}`,
         payload: data,
@@ -93,14 +93,14 @@ function Users({ location, dispatch, users }) {
     <UserModal {...userModalProps} />;
 
   return (
-  <div className={styles.normal}>
-    {/* 用户筛选搜索框 */}
-    <UserSearch {...userSearchProps} />
-    {/* 用户信息展示列表 */}
-    <UserList {...userListProps} />
-    {/* 添加用户 & 修改用户弹出的浮层 */}
-    <UserModalGen {...userModalProps} />
-  </div>
+    <div className={styles.normal}>
+      {/* 用户筛选搜索框 */}
+      <UserSearch {...userSearchProps} />
+      {/* 用户信息展示列表 */}
+      <UserList {...userListProps} />
+      {/* 添加用户 & 修改用户弹出的浮层 */}
+      <UserModalGen {...userModalProps} />
+    </div>
 
 
   );

@@ -35,7 +35,6 @@ const UserList = ({total,current,loading,dataSource,onDeleteItem,onEditItem,onPa
   }];
 
 
-
   return (
     <div>
       <Table
@@ -45,13 +44,16 @@ const UserList = ({total,current,loading,dataSource,onDeleteItem,onEditItem,onPa
         rowKey={record => record.id}
         pagination={false}
       />
-      <Pagination
-        className="ant-table-pagination"
-        total={total}
-        current={current}
-        pageSize={10}
-        onChange={onPageChange}
-      />
+      <div className="paginationStyle">
+        <Pagination
+
+          total={total}
+          current={current}
+          pageSize={10}
+          onChange={onPageChange}
+        />
+      </div>
+
     </div>
   );
 }

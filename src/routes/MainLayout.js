@@ -1,74 +1,73 @@
-import React, { PropTypes } from 'react';
+import React, {PropTypes} from 'react';
 import Header from '../components/MainLayout/Header';
 import Lefter from '../components/MainLayout/Lefter';
 import TopBreadcrumb from '../components/MainLayout/TopBreadcrumb';
 // 引入 connect 工具函数
-import { connect } from 'dva';
+import {connect} from 'dva';
 import styles from './MainLayout.less';
 
 
-
-class MainLayout extends React.Component{
-
+class MainLayout extends React.Component {
 
 
-
-
-  componentWillMount(){
+  componentWillMount() {
     const {dispatch} = this.props;
     dispatch({
       type: 'menus/getAllMenu',
     });
   }
 
-
-
-
-  render(){
-    const {menus,location,dispatch} = this.props;
+  render() {
+    const {menus, location, dispatch} = this.props;
     const lefterProps = {
-      menus :menus.items,
-      location :location,
-      updateNavPath (key,keyPath){
+      menus: menus.items,
+      location: location,
+      updateNavPath (key, keyPath){
         dispatch({
-          type:'menus/updateNavPath',
-          payload : {
-            data:keyPath,
-            key:key
+          type: 'menus/updateNavPath',
+          payload: {
+            data: keyPath,
+            key: key
           }
         })
       }
     }
+
+    const headProps={
+      loginOut(){
+        dispatch({
+          type: 'login/loginOut',
+        })
+      }
+    }
     const navpath = {
-      navpath :menus.navpath
+      navpath: menus.navpath
     }
     return (
-      <div className={styles.layout_box}>
-        <div className={styles.layout_box_top}>
-          <Header location={location}  />
+      <div className={styles.box}>
+
+
+        <div className={styles.menu}>
+          <div className={styles.logo}>
+          </div>
+          <Lefter {...lefterProps}  />
 
         </div>
-        <div className={styles.layout_box_content} >
-
-          <div className={styles.layout_box_content_left}>
-            <Lefter {...lefterProps}  />
-          </div>
-
-          <div className={styles.layout_box_content_right}>
+        <div className={styles.main}>
+          <Header {...headProps} />
+          <div className={styles.container}>
             <div className={styles.top_breadcrumb}>
               <TopBreadcrumb {...navpath}  />
-            </div>
-            <div className={styles.layout_box_content_right_body}>
 
+            </div>
+            <div className={styles.content}>
               {this.props.children}
             </div>
-
-
           </div>
+
         </div>
 
       </div>
-
     );
   }
 
@@ -82,7 +81,7 @@ MainLayout.propTypes = {
 // 指定订阅数据，这里关联了 users
 function mapStateToProps(state) {
   return {
-    menus:state.menus
+    menus: state.menus
   }
 }
 export default connect(mapStateToProps)(MainLayout);
