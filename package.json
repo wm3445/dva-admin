@@ -4,12 +4,14 @@
     "index": "./src/index.js"
   },
   "dependencies": {
-    "antd": "^2.0.1",
+    "antd": "^2.3.2",
     "dva": "^1.1.0",
+    "lodash": "^4.16.6",
     "qs": "^6.2.0",
     "react": "^15.1.0",
     "react-dom": "^15.1.0",
-    "lodash": "^4.16.6"
+    "react-highcharts": "^11.0.0",
+    "routes": "^2.1.0"
   },
   "devDependencies": {
     "atool-build": "^0.7.6",

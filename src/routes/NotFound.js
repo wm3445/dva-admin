@@ -2,6 +2,7 @@ import React from 'react';
 import { Button } from 'antd';
 import styles from './NotFound.less';
 
+
 const NotFound = () =>
   <div className={styles.normal}>
     <div className={styles.container}>

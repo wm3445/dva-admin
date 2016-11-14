@@ -44,25 +44,33 @@ class MainLayout extends React.Component {
       navpath: menus.navpath
     }
     return (
-      <div className={styles.box}>
+      <div className={styles.aside}>
 
-
-        <div className={styles.menu}>
-          <div className={styles.logo}>
-          </div>
-          <Lefter {...lefterProps}  />
-
-        </div>
-        <div className={styles.main}>
-          <Header {...headProps} />
-          <div className={styles.container}>
-            <div className={styles.top_breadcrumb}>
-              <TopBreadcrumb {...navpath}  />
-
+        <div className={styles.sider}>
+          <div className={styles.menu}>
+            <div className={styles.logo}>
             </div>
+            <Lefter   {...lefterProps}  />
+
+          </div>
+        </div>
+
+        <div className={styles.main}>
+          <div className={styles.header}>
+            <Header {...headProps} />
+          </div>
+          <div className={styles.top_breadcrumb}>
+            <TopBreadcrumb {...navpath}  />
+
+          </div>
+          <div className={styles.container}>
+
             <div className={styles.content}>
               {this.props.children}
             </div>
+          </div>
+          <div className={styles.footer}>
+            华夏家博 © 2016 由蚂蚁金服体验技术部支持
           </div>
 
         </div>
@@ -81,7 +89,8 @@ MainLayout.propTypes = {
 // 指定订阅数据，这里关联了 users
 function mapStateToProps(state) {
   return {
-    menus: state.menus
+    menus: state.menus,
+    login:state.login
   }
 }
 export default connect(mapStateToProps)(MainLayout);

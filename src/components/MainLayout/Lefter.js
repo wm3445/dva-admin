@@ -1,8 +1,7 @@
-import React, { PropTypes } from 'react';
-import { Menu, Icon } from 'antd';
-import { Link } from 'dva/router';
-import { connect } from 'dva';
-import styles from './Lefter.less';
+import React, {PropTypes} from "react";
+import {Menu, Icon} from "antd";
+import {Link} from "dva/router";
+import styles from "./Lefter.less";
 const SubMenu = Menu.SubMenu;
 function getMenuKeyFromUrl(pathname) {
   let key = '';

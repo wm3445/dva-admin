@@ -18,8 +18,11 @@ export default {
       const {data} =   yield call(login, payload);
       if (data && data.success) {
         document.cookie = "uid=1";
-
-        yield put(routerRedux.push('/home'))
+        //yield put(routerRedux.push('/home'))
+        yield put({
+          type: 'loginSuccess',
+          payload: data
+        })
       } else {
         yield put({
           type: 'loginFail',
@@ -30,7 +33,11 @@ export default {
     },
     *loginOut({payload}, {call, put}){
       document.cookie = "uid=;expires="+(new Date(0)).toGMTString();
+      yield put({
+        type: 'loginOutSuccess'
+      })
       yield put(routerRedux.push('/login'))
+
     }
   },
   reducers: {
@@ -40,8 +47,6 @@ export default {
       return {...state, loggingIn: true, loginErrors: null}
     },
     loginSuccess(state, action){
-
-
       return {...state, loginInfo: action.payload, loggingIn: false, loginErrors: null}
     },
     loginFail(state, action){
@@ -51,6 +56,9 @@ export default {
     },
     defaultState(state, action){
       return {...state}
+    },
+    loginOutSuccess(state, action){
+      return {...state,loginInfo: null}
     }
   }
 

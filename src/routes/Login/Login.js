@@ -1,6 +1,6 @@
 import React, {PropTypes} from 'react';
 import {notification, message, Form, Icon, Input, Button, Checkbox} from 'antd';
-import {routerRedux} from 'dva/router';
+import {routerRedux ,Link} from 'dva/router';
 const FormItem = Form.Item;
 import styles from './Login.less';
 // 引入 connect 工具函数
@@ -85,7 +85,7 @@ class Login extends React.Component {
             <Button type="primary" htmlType="submit" className={styles.login_button}>
               登陆
             </Button>
-            或者 <a>现在注册!</a>
+            或者 <Link to="/register">现在注册!</Link>
           </FormItem>
 
         </Form>

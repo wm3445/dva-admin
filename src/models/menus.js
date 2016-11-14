@@ -2,7 +2,6 @@ import {getAllMenu} from '../services/main_layout'
 import _ from "lodash"
 import { parse } from 'qs';
 
-
 export default {
   namespace: 'menus',
   state: {
